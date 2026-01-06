@@ -28,10 +28,10 @@ public final class ShadowConfig {
     public static void init(Path path, ConfigSide side) {
         GAME_DIR = path;
         currentSide = side;
-        SCJsonTestConfig.init();
-        SCJsoncTestConfig.init();
-        SCTomlTestConfig.init();
-        SCYamlTestConfig.init();
+        //SCJsonTestConfig.init();
+        //SCJsoncTestConfig.init();
+        //SCTomlTestConfig.init();
+        //SCYamlTestConfig.init();
     }
 
     public static Path getDefaultConfigPath() {
