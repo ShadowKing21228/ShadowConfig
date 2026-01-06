@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "shadowconfig",
+  "version": "${version}",
+  "name": "shadowconfig",
+  "description": "",
+  "authors": [
+    "ShadowKing21"
+  ],
+  "contact": {
+    "homepage": ""
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/shadowconfig/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.shadowking21.shadowconfig.fabric.ShadowConfigFabric"
+    ],
+    "client": [
+      "net.shadowking21.shadowconfig.fabric.client.ShadowconfigFabricClient"
+    ]
+  },
+  "mixins": [
+    "shadowconfig.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "architectury": ">=13.0.8",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
