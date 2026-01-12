@@ -38,13 +38,6 @@ subprojects {
         api ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
         api ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
 
-
-        include ("com.fasterxml.jackson.core:jackson-core:2.19.4")
-        include ("com.fasterxml.jackson.core:jackson-databind:2.19.4")
-        include ("com.fasterxml.jackson.core:jackson-annotations:2.19.4")
-        include ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
-        include ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
-
         minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
         mappings loom.officialMojangMappings()
     }
