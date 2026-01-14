@@ -8,5 +8,11 @@ dependencies {
     // Do NOT use other classes from Fabric Loader.
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
+    api ("com.fasterxml.jackson.core:jackson-core:2.19.4")
+    api ("com.fasterxml.jackson.core:jackson-databind:2.19.4")
+    api ("com.fasterxml.jackson.core:jackson-annotations:2.19.4")
+    api ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
+    api ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
+
     modImplementation "dev.architectury:architectury:$rootProject.architectury_api_version"
 }

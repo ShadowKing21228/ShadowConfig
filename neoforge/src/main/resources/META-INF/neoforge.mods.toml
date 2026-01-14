@@ -1,17 +1,17 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
-#issueTrackerURL = ""
+issueTrackerURL = "https://github.com/ShadowKing21228/ShadowConfig/issues"
 license = "All Rights Reserved"
 
 [[mods]]
 modId = "shadowconfig"
 version = "${version}"
-displayName = "shadowconfig"
+displayName = "Shadow Config"
 authors = "ShadowKing21"
 description = '''
-
+Extensible configuration library for mods, designed to simplify config management with many functions and multiple file extensions
 '''
-#logoFile = ""
+logoFile = "assets/shadowconfig/icon.png"
 
 [[dependencies.shadowconfig]]
 modId = "neoforge"

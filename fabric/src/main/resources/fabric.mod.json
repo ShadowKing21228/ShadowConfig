@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "shadowconfig",
   "version": "${version}",
-  "name": "shadowconfig",
-  "description": "",
+  "name": "Shadow Config",
+  "description": "Extensible configuration library for mods, designed to simplify config management with many functions and multiple file extensions",
   "authors": [
     "ShadowKing21"
   ],

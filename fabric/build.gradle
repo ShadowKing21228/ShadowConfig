@@ -18,6 +18,7 @@ configurations {
 
     // Files in this configuration will be bundled into your mod using the Shadow plugin.
     // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
+    shadowCommon
     shadowBundle {
         canBeResolved = true
         canBeConsumed = false
@@ -31,11 +32,17 @@ dependencies {
 
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
-    include ("com.fasterxml.jackson.core:jackson-core:2.19.4")
-    include ("com.fasterxml.jackson.core:jackson-databind:2.19.4")
-    include ("com.fasterxml.jackson.core:jackson-annotations:2.19.4")
-    include ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
-    include ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
+    shadowCommon ("com.fasterxml.jackson.core:jackson-core:2.19.4")
+    shadowCommon ("com.fasterxml.jackson.core:jackson-databind:2.19.4")
+    shadowCommon ("com.fasterxml.jackson.core:jackson-annotations:2.19.4")
+    shadowCommon ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
+    shadowCommon ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
+
+    minecraftRuntimeLibraries ("com.fasterxml.jackson.core:jackson-core:2.19.4")
+    minecraftRuntimeLibraries ("com.fasterxml.jackson.core:jackson-databind:2.19.4")
+    minecraftRuntimeLibraries ("com.fasterxml.jackson.core:jackson-annotations:2.19.4")
+    minecraftRuntimeLibraries ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
+    minecraftRuntimeLibraries ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
@@ -50,10 +57,20 @@ processResources {
 }
 
 shadowJar {
-    configurations = [project.configurations.shadowBundle]
+    configurations = [project.configurations.shadowCommon]
     archiveClassifier = 'dev-shadow'
+
+    from sourceSets.main.output
+    from project(":common").sourceSets.main.output
+
+    exclude "META-INF/maven/**"
+    exclude "META-INF/scripts/**"
+
+    relocate 'com.fasterxml.jackson', 'net.shadowking21.shadowconfig.shadowlib.jackson'
 }
 
+
 remapJar {
-    input.set shadowJar.archiveFile
+    input.set(shadowJar.archiveFile)
+    dependsOn(shadowJar)
 }
