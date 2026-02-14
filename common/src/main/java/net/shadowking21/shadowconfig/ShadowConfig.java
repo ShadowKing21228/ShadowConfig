@@ -9,9 +9,6 @@ import com.fasterxml.jackson.dataformat.toml.TomlFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import net.shadowking21.shadowconfig.config.ConfigSide;
 import net.shadowking21.shadowconfig.config.exstensions.json.example.SCJsonTestConfig;
-import net.shadowking21.shadowconfig.config.exstensions.jsonc.example.SCJsoncTestConfig;
-import net.shadowking21.shadowconfig.config.exstensions.toml.example.SCTomlTestConfig;
-import net.shadowking21.shadowconfig.config.exstensions.yaml.example.SCYamlTestConfig;
 
 import java.nio.file.Path;
 import java.util.logging.Logger;
@@ -21,21 +18,19 @@ public final class ShadowConfig {
 
     public static final Logger LOGGER = Logger.getLogger("ShadowConfig");
 
-    private static Path GAME_DIR;
+    private static SCPlatformHook CurrentPlatform;
 
-    private static ConfigSide currentSide;
-
-    public static void init(Path path, ConfigSide side) {
-        GAME_DIR = path;
-        currentSide = side;
-        //SCJsonTestConfig.init();
-        //SCJsoncTestConfig.init();
-        //SCTomlTestConfig.init();
-        //SCYamlTestConfig.init();
+    public static void init() {
+        if (CurrentPlatform.isDeveloper()) {
+            SCJsonTestConfig.init();
+            //SCJsoncTestConfig.init();
+            //SCTomlTestConfig.init();
+            //SCYamlTestConfig.init();
+        }
     }
 
     public static Path getDefaultConfigPath() {
-        return GAME_DIR;
+        return CurrentPlatform.getConfigPath();
     }
 
     public static ObjectMapper getDefaultJsonMapper() {
@@ -62,6 +57,12 @@ public final class ShadowConfig {
     }
 
     public static ConfigSide getCurrentGameSide() {
-        return currentSide;
+        return CurrentPlatform.getCurrentSide();
+    }
+
+    public static void initPlatform(SCPlatformHook platformHook) {
+        if (CurrentPlatform != null) return;
+        CurrentPlatform = platformHook;
+        init();
     }
 }

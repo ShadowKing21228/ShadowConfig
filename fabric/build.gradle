@@ -44,6 +44,10 @@ dependencies {
     minecraftRuntimeLibraries ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
     minecraftRuntimeLibraries ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
 
+    modRuntimeOnly "maven.modrinth:rei:16.0.799+fabric"
+    modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:15.0.140"
+    modRuntimeOnly "me.shedaniel.cloth:basic-math:0.6.1"
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }
@@ -67,6 +71,9 @@ shadowJar {
     exclude "META-INF/scripts/**"
 
     relocate 'com.fasterxml.jackson', 'net.shadowking21.shadowconfig.shadowlib.jackson'
+
+    relocate 'com.fasterxml.jackson.dataformat.yaml', 'net.shadowking21.shadowconfig.shadowlib.jackson.dataformat.yaml'
+    relocate 'org.yaml.snakeyaml',                    'net.shadowking21.shadowconfig.shadowlib.snakeyaml'
 }
 
 

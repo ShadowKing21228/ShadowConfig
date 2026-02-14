@@ -49,6 +49,16 @@ dependencies {
     forgeRuntimeLibrary ("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4")
     forgeRuntimeLibrary ("com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4")
 
+    implementation "curse.maven:crafttweaker-239197:7298371"
+
+    // JEI для NeoForge (если понадобится)
+    // modRuntimeOnly "me.zzp.jei:jei-1.21.1-neoforge:19.21.0.247"
+
+    // REI и зависимости для NeoForge 1.21.1
+    modRuntimeOnly "maven.modrinth:rei:16.0.799+neoforge"
+    //modRuntimeOnly "curse.maven:roughly-enough-items-hacks-521393:5650171"
+    modRuntimeOnly "me.shedaniel.cloth:cloth-config-neoforge:15.0.140"
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
@@ -72,6 +82,9 @@ shadowJar {
     exclude "META-INF/scripts/**"
 
     relocate 'com.fasterxml.jackson', 'net.shadowking21.shadowconfig.shadowlib.jackson'
+
+    relocate 'com.fasterxml.jackson.dataformat.yaml', 'net.shadowking21.shadowconfig.shadowlib.jackson.dataformat.yaml'
+    relocate 'org.yaml.snakeyaml',                    'net.shadowking21.shadowconfig.shadowlib.snakeyaml'
 }
 
 
