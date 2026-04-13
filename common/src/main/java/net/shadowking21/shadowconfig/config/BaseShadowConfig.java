@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 
 public abstract class BaseShadowConfig<T> {
 
-    protected final Path PATH;
+    protected Path PATH;
 
-    protected final Path FILE_PATH;
+    protected Path FILE_PATH;
 
     protected ObjectMapper objectMapper;
 
@@ -34,8 +34,10 @@ public abstract class BaseShadowConfig<T> {
 
     protected String modId;
 
+    protected boolean initialized = false;
+
     protected BaseShadowConfig(String modId, T defaults, Class<T> clazz, ConfigSide configSide, ObjectMapper mapper) {
-        this(modId, ShadowConfig.getDefaultConfigPath(), defaults, clazz, configSide, mapper);
+        this(modId, null, defaults, clazz, configSide, mapper);
     }
 
     protected BaseShadowConfig(String modId, Path path, T defaults, Class<T> clazz, ConfigSide configSide, ObjectMapper mapper)
@@ -43,16 +45,30 @@ public abstract class BaseShadowConfig<T> {
         this.modId = modId;
         this.PATH = path;
         this.configSide = configSide;
-        defaultConfig = defaults;
-        objectMapper = mapper;
-        configClass = clazz;
-        FILE_PATH = Paths.get(path.toString(), getConfigName());
+        this.defaultConfig = defaults;
+        this.objectMapper = mapper;
+        this.configClass = clazz;
+        ShadowConfig.registerConfig(this);
     }
 
-    protected void init() {
-        if (!isConfigAvailable())
+    public synchronized void init() {
+        if (initialized || !ShadowConfig.isPlatformInitialized())
             return;
 
+        if (!isConfigAvailable()) {
+            initialized = true;
+            return;
+        }
+
+        if (this.PATH == null) {
+            this.PATH = ShadowConfig.getDefaultConfigPath();
+        }
+        
+        if (this.PATH == null) {
+            return; // Still no path
+        }
+
+        this.FILE_PATH = Paths.get(PATH.toString(), getConfigName());
 
         createPathsIfNotExists();
         if (!isExists())
@@ -61,11 +77,16 @@ public abstract class BaseShadowConfig<T> {
             migrateIfNeed();
 
         currentConfig = read();
+        initialized = true;
     }
 
     public T read()
     {
         configAllowThrow();
+
+        if (FILE_PATH == null) {
+            return defaultConfig;
+        }
 
         T value;
         try {
@@ -79,6 +100,10 @@ public abstract class BaseShadowConfig<T> {
     public void write(T value)
     {
         configAllowThrow();
+        
+        if (FILE_PATH == null) {
+            return;
+        }
 
         try {
             if (isCommentsAllowed()) {
@@ -107,6 +132,10 @@ public abstract class BaseShadowConfig<T> {
         configAllowThrow();
         deleteConfigFile();
 
+        if (FILE_PATH == null) {
+            return;
+        }
+
         try {
             if (isCommentsAllowed()) {
                 Writer writer = Files.newBufferedWriter(FILE_PATH);
@@ -133,6 +162,8 @@ public abstract class BaseShadowConfig<T> {
     {
         configAllowThrow();
 
+        if (FILE_PATH == null) return;
+
         try {
             Files.deleteIfExists(FILE_PATH);
         } catch (IOException e) {
@@ -143,6 +174,8 @@ public abstract class BaseShadowConfig<T> {
     public void migrateIfNeed()
     {
         configAllowThrow(); // Side check
+
+        if (FILE_PATH == null) return;
 
         // If old config file does not have any fields of default config
 
@@ -212,12 +245,17 @@ public abstract class BaseShadowConfig<T> {
 
     public T getCurrentConfig()
     {
+        if (!initialized) {
+            init();
+        }
+        
         configAllowThrow();
-        return currentConfig;
+        return currentConfig != null ? currentConfig : defaultConfig;
     }
 
     protected void createPathsIfNotExists()
     {
+        if (PATH == null) return;
         try {
             if (!Files.exists(PATH)) {
                 ShadowConfig.LOGGER.config("Directories with path " + PATH.toFile().getAbsolutePath() + " not found");
@@ -231,7 +269,7 @@ public abstract class BaseShadowConfig<T> {
 
     protected boolean isExists()
     {
-        return FILE_PATH.toFile().exists();
+        return FILE_PATH != null && FILE_PATH.toFile().exists();
     }
 
     protected boolean isConfigAvailable()

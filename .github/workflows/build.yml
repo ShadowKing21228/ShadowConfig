@@ -1,0 +1,50 @@
+name: Release Mod
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # ВАЖНО: Ставим Java 21 для запуска Gradle (так требует новый Loom)
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: false
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        # Gradle запустится на Java 21, но скомпилирует мод под Java 17,
+        # так как это указано у тебя в build.gradle (release = 17)
+        run: ./gradlew build --no-daemon
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            fabric/build/libs/*.jar
+            neoforge/build/libs/*.jar
+            common/build/libs/*.jar
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

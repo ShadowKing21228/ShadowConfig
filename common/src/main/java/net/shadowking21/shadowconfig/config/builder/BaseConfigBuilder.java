@@ -1,7 +1,6 @@
 package net.shadowking21.shadowconfig.config.builder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.shadowking21.shadowconfig.ShadowConfig;
 import net.shadowking21.shadowconfig.config.ConfigSide;
 
 import java.nio.file.Path;
@@ -11,7 +10,7 @@ public abstract class BaseConfigBuilder<T>
     protected String modId;
     protected Class<T> clazz;
     protected T defaults;
-    protected Path path = ShadowConfig.getDefaultConfigPath();
+    protected Path path;
     protected ObjectMapper mapper = getDefaultMapper();
     protected ConfigSide side = ConfigSide.COMMON;
 
@@ -38,6 +37,7 @@ public abstract class BaseConfigBuilder<T>
     protected void setDefaults(T defaults) {
         this.defaults = defaults;
     }
+
     protected abstract ObjectMapper getDefaultMapper();
 }
 
