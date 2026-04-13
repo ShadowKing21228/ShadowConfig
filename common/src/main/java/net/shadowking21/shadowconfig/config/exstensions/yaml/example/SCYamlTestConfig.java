@@ -4,6 +4,7 @@ import net.shadowking21.shadowconfig.ShadowConfig;
 import net.shadowking21.shadowconfig.config.ConfigSide;
 import net.shadowking21.shadowconfig.config.exstensions.yaml.SCYamlConfig;
 import net.shadowking21.shadowconfig.config.models.RandomConfig;
+import net.shadowking21.shadowconfig.config.models.RandomConfig;
 
 public class SCYamlTestConfig {
     public static SCYamlConfig<RandomConfig> commonRandomConfig;
@@ -35,8 +36,8 @@ public class SCYamlTestConfig {
                         .side(ConfigSide.CLIENT)
                         .build();
 
-        var var = clientRandomConfig.getCurrentConfig().randomValue;
-        ShadowConfig.LOGGER.info(var);
-        System.out.println(var);
+        //var var = clientRandomConfig.getCurrentConfig().enableAquiferPatch;
+        //ShadowConfig.LOGGER.info(String.valueOf(var));
+        //System.out.println(var);
     }
 }

@@ -1,7 +1,9 @@
 package net.shadowking21.shadowconfig.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.shadowking21.shadowconfig.annotation.ConfigComment;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
@@ -11,12 +13,17 @@ import java.util.Map;
 
 public class YamlSerializer {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper()
+            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
     public static void writeYaml(Object bean, Writer writer) throws IOException {
         Map<String, Object> map = mapper.convertValue(bean, Map.class);
 
-        Yaml yaml = new Yaml();
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setPrettyFlow(true);
+        Yaml yaml = new Yaml(options);
+        
         String rawYaml = yaml.dump(map);
 
         String finalYaml = insertComments(rawYaml, bean.getClass());

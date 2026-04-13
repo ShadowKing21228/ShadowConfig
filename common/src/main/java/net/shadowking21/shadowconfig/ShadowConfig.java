@@ -3,6 +3,7 @@ package net.shadowking21.shadowconfig;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.toml.TomlFactory;
@@ -42,6 +43,7 @@ public final class ShadowConfig {
 
     public static ObjectMapper getDefaultJsonMapper() {
         return new ObjectMapper()
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(JsonGenerator.Feature.IGNORE_UNKNOWN);
     }
@@ -49,18 +51,21 @@ public final class ShadowConfig {
     public static ObjectMapper getDefaultJsoncMapper() {
         var factory = JsonFactory.builder().enable(JsonReadFeature.ALLOW_JAVA_COMMENTS).build();
         return new ObjectMapper(factory)
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .enable(JsonGenerator.Feature.IGNORE_UNKNOWN);
     }
 
     public static ObjectMapper getDefaultYamlMapper()
     {
-        return new ObjectMapper(new YAMLFactory());
+        return new ObjectMapper(new YAMLFactory())
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     public static ObjectMapper getDefaultTomlMapper()
     {
-        return new ObjectMapper(new TomlFactory());
+        return new ObjectMapper(new TomlFactory())
+                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
     public static ConfigSide getCurrentGameSide() {
