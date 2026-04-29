@@ -1,6 +1,5 @@
 package net.shadowking21.shadowconfig.utils;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.shadowking21.shadowconfig.annotation.ConfigComment;

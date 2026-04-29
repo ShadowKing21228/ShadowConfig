@@ -4,7 +4,6 @@ import net.shadowking21.shadowconfig.ShadowConfig;
 import net.shadowking21.shadowconfig.config.ConfigSide;
 import net.shadowking21.shadowconfig.config.exstensions.yaml.SCYamlConfig;
 import net.shadowking21.shadowconfig.config.models.RandomConfig;
-import net.shadowking21.shadowconfig.config.models.RandomConfig;
 
 public class SCYamlTestConfig {
     public static SCYamlConfig<RandomConfig> commonRandomConfig;
