@@ -35,8 +35,10 @@ public class SCTomlTestConfig {
                         .side(ConfigSide.CLIENT)
                         .build();
 
-        var var = clientRandomConfig.getCurrentConfig().randomValue;
-        ShadowConfig.LOGGER.info(var);
-        System.out.println(var);
+        if (ShadowConfig.isPlatformInitialized() && ShadowConfig.getCurrentGameSide() == ConfigSide.CLIENT) {
+            var var = clientRandomConfig.getCurrentConfig().randomValue;
+            ShadowConfig.LOGGER.info(var);
+            System.out.println(var);
+        }
     }
 }

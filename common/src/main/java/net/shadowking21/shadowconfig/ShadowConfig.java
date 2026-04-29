@@ -11,6 +11,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import net.shadowking21.shadowconfig.config.BaseShadowConfig;
 import net.shadowking21.shadowconfig.config.ConfigSide;
 import net.shadowking21.shadowconfig.config.exstensions.json.example.SCJsonTestConfig;
+import net.shadowking21.shadowconfig.config.exstensions.jsonc.example.SCJsoncTestConfig;
+import net.shadowking21.shadowconfig.config.exstensions.toml.example.SCTomlTestConfig;
+import net.shadowking21.shadowconfig.config.exstensions.yaml.example.SCYamlTestConfig;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -30,9 +33,9 @@ public final class ShadowConfig {
     public static void init() {
         if (CurrentPlatform.isDeveloper()) {
             SCJsonTestConfig.init();
-            //SCJsoncTestConfig.init();
-            //SCTomlTestConfig.init();
-            //SCYamlTestConfig.init();
+            SCJsoncTestConfig.init();
+            SCTomlTestConfig.init();
+            SCYamlTestConfig.init();
         }
     }
 

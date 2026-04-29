@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class RandomConfig
 {
-    @ConfigComment("Just a random commentary for random value And... next string of comment")
+    @ConfigComment("Just a random commentary for random value \nAnd... next string of comment")
     public String randomValue = "random";
 
     @ConfigComment("Just a random commentary for random value TWO")
@@ -25,6 +25,9 @@ public class RandomConfig
 
     @ConfigComment("Finally it ready to release!")
     public String additionalValue = "HAHAHA I DO IT!";
+
+    @ConfigComment("Nested Config start")
+    public NestedConfig config = new NestedConfig();
 
     public RandomConfig() {}
 }

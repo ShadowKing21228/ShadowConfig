@@ -1,5 +1,6 @@
 package net.shadowking21.shadowconfig.utils;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.shadowking21.shadowconfig.annotation.ConfigComment;
@@ -45,7 +46,8 @@ public class YamlSerializer {
             String comment = extractComment(beanClass, key);
 
             if (comment != null) {
-                out.append("# ").append(comment).append("\n");
+                writeCommentLines(out, comment);
+                //out.append("# ").append(comment).append("\n");
             }
 
 
@@ -62,6 +64,16 @@ public class YamlSerializer {
             return c != null ? c.value() : null;
         } catch (NoSuchFieldException e) {
             return null;
+        }
+    }
+
+    private static void writeCommentLines(StringBuilder builder, String comment) {
+        String[] lines = comment.replace("\r\n", "\n").split("\n", -1);
+        for (String line : lines) {
+            //if (i > 0) {
+            //    _objectIndenter.writeIndentation(g, _nesting);
+            //}
+            builder.append("# ").append(line).append("\n");
         }
     }
 }
