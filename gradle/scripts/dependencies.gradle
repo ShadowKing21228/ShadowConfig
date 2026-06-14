@@ -1,0 +1,43 @@
+apply from: 'gradle/scripts/helpers.gradle'
+
+repositories {
+    // Other repositories described by default:
+    // CleanroomMC: https://maven.cleanroommc.com
+    maven {
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
+    }
+    maven {
+        name = 'CleanroomCurseMaven'
+        url = 'https://curse.cleanroommc.com'
+    }
+    maven {
+        name = 'Modrinth'
+        url = 'https://api.modrinth.com/maven'
+    }
+    maven { url = "https://maven.bawnorton.com/releases" }
+
+    // Mirror
+    maven { url = "https://maven.enjarai.dev/mirrors" }
+    mavenCentral()
+    mavenLocal() // Must be last for caching to work
+}
+
+dependencies {
+    compileOnly "com.cleanroommc:sponge-mixin:0.20.13+mixin.0.8.7"
+    if (propertyBool('enable_lwjglx')) {
+        compileOnly "com.cleanroommc:lwjglx:1.0.0"
+    }
+
+    annotationProcessor "com.fasterxml.jackson.core:jackson-core:2.19.4"
+    annotationProcessor "com.fasterxml.jackson.core:jackson-databind:2.19.4"
+    annotationProcessor "com.fasterxml.jackson.core:jackson-annotations:2.19.4"
+    annotationProcessor "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4"
+    annotationProcessor "com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4"
+
+    shadow "com.fasterxml.jackson.core:jackson-core:2.19.4"
+    shadow "com.fasterxml.jackson.core:jackson-databind:2.19.4"
+    shadow "com.fasterxml.jackson.core:jackson-annotations:2.19.4"
+    shadow "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.4"
+    shadow "com.fasterxml.jackson.dataformat:jackson-dataformat-toml:2.19.4"
+}

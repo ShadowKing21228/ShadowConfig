@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "net.shadowking21.shadowconfig.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(MOD)",
+  "client": [],
+  "mixins": [],
+  "server": [],
+  "setSourceFile": true,
+  "minVersion": "0.8.7"
+}
